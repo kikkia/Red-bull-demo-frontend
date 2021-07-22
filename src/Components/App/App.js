@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom';
 
 import Home from './Home';
 import Videos from './Videos';
@@ -15,7 +15,9 @@ function App() {
       <div>
         <Navigation title = "Red Bull Demo"/>
         <Switch>
-          <Route path="/" component={Home} exact/>
+          <Route exact path="/">
+            {localStorage.getItem("authed") === "true" ? <Redirect to="/videos" /> : <Redirect to="/login" /> }
+          </Route>
           <Route path="/login" component={Login}/>
           <AuthenticatedRoute 
             path="/videos" 

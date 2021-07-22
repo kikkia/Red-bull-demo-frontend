@@ -36,6 +36,9 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  TextField: {
+    background: "#fff",
+  }
 }));
 
 
@@ -147,6 +150,9 @@ export default function Login() {
             Register
           </Typography>
             <TextField
+              inputProps = {{
+                className: classes.TextField
+              }}
               variant="outlined"
               margin="normal"
               required
@@ -159,6 +165,9 @@ export default function Login() {
               onChange={handleUsernameChange}
             />
             <TextField
+              inputProps = {{
+                className: classes.TextField
+              }}
               variant="outlined"
               margin="normal"
               required
@@ -183,7 +192,7 @@ export default function Login() {
               <Grid item>
                 <Link href="#" variant="body2" onClick={() => {
                           setReg(false)}}>
-                  {"Already have an account? Sign up"}
+                  {"Already have an account? Sign in"}
                 </Link>
               </Grid>
             </Grid>
@@ -212,6 +221,9 @@ export default function Login() {
             Sign in
           </Typography>
             <TextField
+              inputProps = {{
+                className: classes.TextField
+              }}
               variant="outlined"
               margin="normal"
               required
@@ -224,6 +236,9 @@ export default function Login() {
               onChange={handleUsernameChange}
             />
             <TextField
+              inputProps = {{
+                className: classes.TextField
+              }}
               variant="outlined"
               margin="normal"
               required
