@@ -25,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
     },
     paper: {
       position: 'absolute',
-      width: 1000,
       backgroundColor: theme.palette.background.paper,
       border: '2px solid #000',
       boxShadow: theme.shadows[5],
@@ -41,21 +40,9 @@ const cleanDesc = (desc) => {
     }
 }
 
-function getModalStyle() {
-  const top = 50;
-  const left = 50;
-
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-  };
-}
-
 const Top = () => {
     const classes = useStyles();
     const history = useHistory();
-    const [modalStyle] = React.useState(getModalStyle);
     const [width, setWidth] = useState(window.innerWidth);
 
     const [error, setError] = useState("");
@@ -65,6 +52,20 @@ const Top = () => {
     const [selected, setSelected] = useState(null);
     const [open, setOpen] = useState(false);
     const [myRatings, setMyRatings] = useState({});
+
+    const getModalStyle = () => {
+        const top = 50;
+        const left = 50;
+        const wide = (width <= 1000) ? width : "1000";
+      
+        return {
+          top: `${top}%`,
+          left: `${left}%`,
+          width: `${wide}`,
+          transform: `translate(-${top}%, -${left}%)`,
+        };
+      }
+      const [modalStyle] = React.useState(getModalStyle);
 
 
     const handleWindowSizeChange = () => {
@@ -180,8 +181,8 @@ const Top = () => {
       <Rating name="size-large" defaultValue={myRatings[selected.id]} size="large" onChange={handleRating} />
       <iframe id="content"
         src={selected.contentUrl}
-        height={width < 765 ? "300" : "450"}
-        width={width < 765 ? "600" : "800"}
+        height={width < 800 ? "300" : "450"}
+        width={width < 800 ? width : "800"}
         allowFullScreen
         frameBorder = "0"
       />
