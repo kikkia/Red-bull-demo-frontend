@@ -191,7 +191,7 @@ const Content = () => {
     const videoModal = selected !== null ? (
       <div style={modalStyle} className={classes.paper}>
       <h2 id="simple-modal-title">{selected.title}</h2>
-      <Rating name="size-large" defaultValue={myRatings[selected.id]} size="large" onChange={handleRating} />
+      
       <iframe id="content"
         src={selected.contentUrl}
         height={width < 800 ? "300" : "450"}
@@ -199,6 +199,8 @@ const Content = () => {
         allowFullScreen
         frameBorder = "0"
       />
+      <br></br>
+      <Rating name="size-large" defaultValue={myRatings[selected.id]} size="large" onChange={handleRating} />
       <p id="simple-modal-description">
         {selected.description}
       </p>
