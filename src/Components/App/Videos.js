@@ -66,7 +66,7 @@ const Content = () => {
     const [success, setSuccess] = useState("");
     const [isLoaded, setIsLoaded] = useState(false);
     const [items, setItems] = useState([]);
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
     const [selected, setSelected] = useState(null);
     const [open, setOpen] = useState(false);
     const [myRatings, setMyRatings] = useState({});
@@ -80,7 +80,7 @@ const Content = () => {
     // this useEffect will run once
     // similar to componentDidMount()
     useEffect(() => {
-        fetch("/api/videos?limit=20&page=" + page,
+        fetch("/api/videos?limit=20&page=" + (page-1),
         {
             credentials: 'include',
             mode: "cors"
@@ -139,6 +139,8 @@ const Content = () => {
                     if (result.status === 200) {
                       setSuccess("Rated video")
                       setTimeout(handleAlertClose, 1500)
+                      myRatings[selected.id] = newValue
+                      setMyRatings(myRatings)
                     } else {
                       setError("Something went wrong. Please try again")
                       setTimeout(handleAlertClose, 1500)
@@ -209,7 +211,7 @@ const Content = () => {
                   {error}
                 </Alert>
               </Snackbar>
-              <Pagination classes={{ul: classes.ul}} count={24} shape="rounded" onChange={handlePageChange} />
+              <Pagination classes={{ul: classes.ul}} count={25} shape="rounded" onChange={handlePageChange} />
                <h1>Content</h1>
                <Grid container spacing={1}>
                 {items.map(item => (
