@@ -56,6 +56,7 @@ const Top = () => {
     const classes = useStyles();
     const history = useHistory();
     const [modalStyle] = React.useState(getModalStyle);
+    const [width, setWidth] = useState(window.innerWidth);
 
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
@@ -65,6 +66,11 @@ const Top = () => {
     const [open, setOpen] = useState(false);
     const [myRatings, setMyRatings] = useState({});
 
+
+    const handleWindowSizeChange = () => {
+        setWidth(window.innerWidth);
+    }
+  
     // Note: the empty deps array [] means
     // this useEffect will run once
     // similar to componentDidMount()
@@ -95,7 +101,10 @@ const Top = () => {
                     setTimeout(handleAlertClose, 2000)
                 }
       )
+      window.addEventListener('resize', handleWindowSizeChange);
     })
+
+    let gridSpace = (width <= 768) ? 12 : 3;
 
     const openVideo = (video) => {
       getRating(video);
@@ -171,8 +180,8 @@ const Top = () => {
       <Rating name="size-large" defaultValue={myRatings[selected.id]} size="large" onChange={handleRating} />
       <iframe id="content"
         src={selected.contentUrl}
-        height="450"
-        width="800"
+        height={width < 765 ? "300" : "450"}
+        width={width < 765 ? "600" : "800"}
         allowFullScreen
         frameBorder = "0"
       />
@@ -202,7 +211,7 @@ const Top = () => {
                <h1>Top 10 Rated</h1>
                <Grid container spacing={1}>
                 {items.map(item => (
-                  <Grid item xs={3}>
+                  <Grid item xs={gridSpace}>
                     <Card className={classes.root}  onClick={() => {openVideo(item)}}>
                     <CardActionArea>
                       <CardMedia

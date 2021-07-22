@@ -61,7 +61,7 @@ const Content = () => {
     const classes = useStyles();
     const history = useHistory();
     const [modalStyle] = React.useState(getModalStyle);
-
+    const [width, setWidth] = useState(window.innerWidth);
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
     const [isLoaded, setIsLoaded] = useState(false);
@@ -76,6 +76,10 @@ const Content = () => {
       console.log(page)
     }
 
+    const handleWindowSizeChange = () => {
+      setWidth(window.innerWidth);
+    }
+
     // Note: the empty deps array [] means
     // this useEffect will run once
     // similar to componentDidMount()
@@ -85,27 +89,31 @@ const Content = () => {
             credentials: 'include',
             mode: "cors"
         })
-            .then(res => {
-              if (res.status === 401) {
-                localStorage.setItem("authed", false);
-                history.push('/login')
-              }
-              return res.json()
-            })
-            .then(
-                (result) => {
-                    setItems(result);
-                    setIsLoaded(true);
-                },
-                // Note: it's important to handle errors here
-                // instead of a catch() block so that we don't swallow
-                // exceptions from actual bugs in components.
-                (error) => {
-                    setIsLoaded(true);
-                    setError(error);
-                }
-      )
+        .then(res => {
+          if (res.status === 401) {
+            localStorage.setItem("authed", false);
+            history.push('/login')
+          }
+          return res.json()
+        })
+        .then(
+            (result) => {
+                setItems(result);
+                setIsLoaded(true);
+            },
+            // Note: it's important to handle errors here
+            // instead of a catch() block so that we don't swallow
+            // exceptions from actual bugs in components.
+            (error) => {
+                setIsLoaded(true);
+                setError(error);
+            }
+        )
+        window.addEventListener('resize', handleWindowSizeChange);
+
     }, [page])
+
+    let gridSpace = (width <= 768) ? 12 : 3;
 
     const openVideo = (video) => {
       getRating(video);
@@ -183,8 +191,8 @@ const Content = () => {
       <Rating name="size-large" defaultValue={myRatings[selected.id]} size="large" onChange={handleRating} />
       <iframe id="content"
         src={selected.contentUrl}
-        height="450"
-        width="800"
+        height={width < 765 ? "300" : "450"}
+        width={width < 765 ? "600" : "800"}
         allowFullScreen
         frameBorder = "0"
       />
@@ -215,7 +223,7 @@ const Content = () => {
                <h1>Content</h1>
                <Grid container spacing={1}>
                 {items.map(item => (
-                  <Grid item xs={3}>
+                  <Grid item xs={gridSpace}>
                     <Card className={classes.root}  onClick={() => {openVideo(item)}}>
                     <CardActionArea>
                       <CardMedia
