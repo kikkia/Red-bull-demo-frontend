@@ -6,6 +6,7 @@ import Videos from './Videos';
 import Top from './Top';
 import Error from './Error';
 import Login from './Login';
+import Logout from './Logout';
 import Navigation from './Navigation';
 import AuthenticatedRoute from '../../routes/AuthenticatedRoute';
 
@@ -19,6 +20,7 @@ function App() {
             {localStorage.getItem("authed") === "true" ? <Redirect to="/videos" /> : <Redirect to="/login" /> }
           </Route>
           <Route path="/login" component={Login}/>
+          <Route path="/logout" component={Logout}/>
           <AuthenticatedRoute 
             path="/videos" 
             component={Videos}

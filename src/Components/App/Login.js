@@ -38,6 +38,9 @@ const useStyles = makeStyles((theme) => ({
   },
   TextField: {
     background: "#fff",
+  },
+  Link: {
+    color: '#00FFFF'
   }
 }));
 
@@ -49,9 +52,14 @@ export default function Login() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [username, setUsername] = useState("");
 
   const registerNewUser = () => {
+    if (!usernameValid || !passwordValid) {
+      setError("Username or password is invalid")
+      return
+    }
     let url = "/api/auth/register?username=" + username + "&pass=" + password;
     fetch(url,
           {
@@ -82,6 +90,10 @@ export default function Login() {
   };
 
   const signIn = () => {
+    if (!usernameValid || !passwordValid) {
+      setError("Username or password is invalid")
+      return
+    }
     let url = "/api/auth/login?username=" + username + "&pass=" + password;
     fetch(url,
           {
@@ -128,6 +140,14 @@ export default function Login() {
     setUsername(event.target.value)
   }
 
+  const handleConfirmPasswordChange = event => {
+    setConfirmPassword(event.target.value)
+  }
+
+  const passwordMismatch = confirmPassword !== password;
+  const usernameValid = username.length >= 3 && username.length < 100;
+  const passwordValid = password.length >= 3 && password.length < 200;
+
   if (register) {
     return (<Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -161,6 +181,7 @@ export default function Login() {
               label="Username"
               name="email"
               autoComplete="email"
+              error={!usernameValid}
               autoFocus
               onChange={handleUsernameChange}
             />
@@ -179,6 +200,23 @@ export default function Login() {
               autoComplete="current-password"
               onChange={handlePasswordChange}
             />
+            <TextField
+              inputProps = {{
+                className: classes.TextField
+              }}
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="confirmPassword"
+              label="ReType password"
+              type="password"
+              id="confirmPassword"
+              helperText={passwordMismatch ? "Passwords do not match" : ""}
+              error={passwordMismatch}
+              autoComplete="current-password"
+              onChange={handleConfirmPasswordChange}
+            />
             <Button
               type=""
               fullWidth
@@ -190,7 +228,7 @@ export default function Login() {
             </Button>
             <Grid container>
               <Grid item>
-                <Link href="#" variant="body2" onClick={() => {
+                <Link href="#" variant="body2" class={classes.Link} onClick={() => {
                           setReg(false)}}>
                   {"Already have an account? Sign in"}
                 </Link>
@@ -232,6 +270,7 @@ export default function Login() {
               label="Username"
               name="email"
               autoComplete="email"
+              error={!usernameValid}
               autoFocus
               onChange={handleUsernameChange}
             />
@@ -262,7 +301,7 @@ export default function Login() {
             </Button>
             <Grid container>
               <Grid item>
-                <Link href="#" variant="body2" onClick={() => {
+                <Link href="#" variant="body2" class={classes.Link} onClick={() => {
                           setReg(true)}}>
                   {"Don't have an account? Sign Up"}
                 </Link>

@@ -48,16 +48,6 @@ const Navigation = (props) => {
             Login
         </Button>
 
-    const logout = () => {
-        localStorage.setItem("authed", false);
-        fetch('api/auth/logout',
-            {
-              method: 'POST',
-              credentials: 'include',
-              mode: "cors"
-            })
-    }
-
     // Defines nav drawer pages
     const list = () => (
         <div
@@ -81,9 +71,9 @@ const Navigation = (props) => {
         </List>
         <Divider />
         <List>
-            <ListItem button key="Logout" onClick={logout}>
+            <ListItem button key="Logout">
                 <ListItemIcon><ExitToAppIcon/></ListItemIcon>
-                <NavLink to="/login">Logout</NavLink>
+                <NavLink to="/logout">Logout</NavLink>
             </ListItem>
         </List>
         </div>
