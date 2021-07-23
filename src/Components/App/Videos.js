@@ -114,7 +114,7 @@ const Content = () => {
         )
         window.addEventListener('resize', handleWindowSizeChange);
 
-    }, [page])
+    }, [page, success])
 
     let gridSpace = (width <= 768) ? 12 : 3;
 

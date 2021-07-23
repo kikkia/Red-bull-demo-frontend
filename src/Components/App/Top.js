@@ -103,7 +103,7 @@ const Top = () => {
                 }
       )
       window.addEventListener('resize', handleWindowSizeChange);
-    })
+    }, [success])
 
     let gridSpace = (width <= 768) ? 12 : 3;
 
